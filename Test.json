@@ -604,11 +604,7 @@
     },
     {
       "name": "child_x_offset",
-<<<<<<< HEAD
-      "description": "",
-=======
       "description": "offset in axis x",
->>>>>>> cabecera
       "value": 10
     },
     {
