@@ -594,7 +594,7 @@
     },
     {
       "name": "Value_Scale",
-      "description": "",
+      "description": "Value of scale",
       "update": "pluck(data('dataset'), '__10__')[0]"
     },
     {
