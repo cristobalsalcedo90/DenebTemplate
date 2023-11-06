@@ -604,7 +604,7 @@
     },
     {
       "name": "child_x_offset",
-      "description": "offset in axis x",
+      "description": "",
       "value": 10
     },
     {
