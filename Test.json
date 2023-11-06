@@ -584,7 +584,7 @@
   "signals": [
     {
       "name": "child_width",
-      "description": "",
+      "description": "width of card",
       "value": 200
     },
     {
