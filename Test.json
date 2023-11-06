@@ -604,7 +604,7 @@
     },
     {
       "name": "child_x_offset",
-      "description": "",
+      "description": "+ ALL",
       "value": 10
     },
     {
@@ -614,17 +614,17 @@
     },
     {
       "name": "MaxDate",
-      "description": "",
+      "description": "Max Date",
       "update": "extent(pluck(data('dataset'),'__3__'))[1]"
     },
     {
       "name": "MinDate",
-      "description": "",
+      "description": "Min Date",
       "update": "extent(pluck(data('dataset'),'__3__'))[0]"
     },
     {
       "name": "timeDiff",
-      "description": "",
+      "description": "Diff",
       "update": "month(datetime(MaxDate)) - month(datetime(MinDate))"
     },
     {"name": "maxMonths","description":"", "value": 12},
