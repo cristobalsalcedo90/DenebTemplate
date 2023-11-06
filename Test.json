@@ -116,7 +116,7 @@
     ]
   },
   "config": {},
-  "description": "VEDA Trend Chart (KPI Matrix V) (Vega), version 10-07-2023",
+  "description": "VEDA Trend Chart (KPI Matrix V) (Vega), version 10-07-2023, author Pesante Analytics",
   "height": 600,
   "width": 800,
   "padding": 5,
@@ -584,17 +584,14 @@
   "signals": [
     {
       "name": "child_width",
-      "description": "Width of Card",
       "value": 200
     },
     {
       "name": "child_height",
-      "description": "height of Card",
       "value": 100
     },
     {
       "name": "Value_Scale",
-      "description": "Value of scale",
       "update": "pluck(data('dataset'), '__10__')[0]"
     },
     {
