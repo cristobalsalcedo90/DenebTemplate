@@ -584,14 +584,17 @@
   "signals": [
     {
       "name": "child_width",
+      "description": "Width of Card",
       "value": 200
     },
     {
       "name": "child_height",
+      "description": "height of Card",
       "value": 100
     },
     {
       "name": "Value_Scale",
+      "description": "",
       "update": "pluck(data('dataset'), '__10__')[0]"
     },
     {
