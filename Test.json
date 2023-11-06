@@ -116,7 +116,7 @@
     ]
   },
   "config": {},
-  "description": "VEDA Trend Chart (KPI Matrix V) (Vega), version 10-07-2023, author Pesante Analytics",
+  "description": "VEDA Trend Chart (KPI Matrix V) (Vega), version 10-07-2023, author: Pesante Analytics",
   "height": 600,
   "width": 800,
   "padding": 5,
@@ -584,22 +584,27 @@
   "signals": [
     {
       "name": "child_width",
+      "description": "",
       "value": 200
     },
     {
       "name": "child_height",
+      "description": "",
       "value": 100
     },
     {
       "name": "Value_Scale",
+      "description": "",
       "update": "pluck(data('dataset'), '__10__')[0]"
     },
     {
       "name": "Scale",
+      "description": "",
       "update": "Value_Scale === 1 ? false : true"
     },
     {
       "name": "child_x_offset",
+      "description": "",
       "value": 10
     },
     {
@@ -609,17 +614,20 @@
     },
     {
       "name": "MaxDate",
+      "description": "",
       "update": "extent(pluck(data('dataset'),'__3__'))[1]"
     },
     {
       "name": "MinDate",
+      "description": "",
       "update": "extent(pluck(data('dataset'),'__3__'))[0]"
     },
     {
       "name": "timeDiff",
+      "description": "",
       "update": "month(datetime(MaxDate)) - month(datetime(MinDate))"
     },
-    {"name": "maxMonths", "value": 12},
+    {"name": "maxMonths","description":"", "value": 12},
     {"name": "minMonths", "value": 2}
   ],
   "layout": {
