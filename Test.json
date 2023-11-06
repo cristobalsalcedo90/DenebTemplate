@@ -604,6 +604,7 @@
     },
     {
       "name": "child_y_offset",
+      "description": "Offset for axis Y",
       "value": 10
     },
     {
