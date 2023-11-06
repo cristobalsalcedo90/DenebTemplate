@@ -589,22 +589,22 @@
     },
     {
       "name": "child_height",
-      "description": "",
+      "description": "height of card",
       "value": 100
     },
     {
       "name": "Value_Scale",
-      "description": "",
+      "description": "Value of scale",
       "update": "pluck(data('dataset'), '__10__')[0]"
     },
     {
       "name": "Scale",
-      "description": "",
+      "description": "true or false of scale",
       "update": "Value_Scale === 1 ? false : true"
     },
     {
       "name": "child_x_offset",
-      "description": "",
+      "description": "offset in axis x",
       "value": 10
     },
     {
