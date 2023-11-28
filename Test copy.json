@@ -1,0 +1,1697 @@
+{
+  "$schema": "https://vega.github.io/schema/vega/v5.json",
+  "usermeta": {
+    "deneb": {
+      "build": "1.5.1.0",
+      "metaVersion": 1,
+      "provider": "vega",
+      "providerVersion": "5.23.0"
+    },
+    "interactivity": {
+      "tooltip": true,
+      "contextMenu": true,
+      "selection": true,
+      "highlight": true,
+      "dataPointLimit": 50
+    },
+    "information": {
+      "name": "VEDA Trend Chart (KPI Matrix V) (Vega)",
+      "description": "VEDA Trend Chart (KPI Matrix V) (Vega)",
+      "author": "Pesante Analytics LLC",
+      "uuid": "2ba9915e-69ed-4d2e-a4c4-43f9a958c5ee",
+      "generated": "2023-07-12T20:39:21.613Z"
+    },
+    "dataset": [
+      {
+        "key": "__0__",
+        "name": "VEDA Measure Name",
+        "description": "",
+        "type": "text",
+        "kind": "column"
+      },
+      {
+        "key": "__1__",
+        "name": "VEDA Measure Category",
+        "description": "",
+        "type": "text",
+        "kind": "column"
+      },
+      {
+        "key": "__2__",
+        "name": "VEDA Measure FormatString",
+        "description": "",
+        "type": "text",
+        "kind": "column"
+      },
+      {
+        "key": "__3__",
+        "name": "Year Month",
+        "description": "",
+        "type": "dateTime",
+        "kind": "column"
+      },
+      {
+        "key": "__4__",
+        "name": "VEDA Measure Sentiment",
+        "description": "",
+        "type": "text",
+        "kind": "column"
+      },
+      {
+        "key": "__5__",
+        "name": "VEDA Measure (FP) KPI Denominators Name",
+        "description": "",
+        "type": "text",
+        "kind": "column"
+      },
+      {
+        "key": "__6__",
+        "name": "VEDA Measure KPI Denominator FormatString",
+        "description": "",
+        "type": "text",
+        "kind": "column"
+      },
+      {
+        "key": "__7__",
+        "name": "XRAY Measure KPI TARGET",
+        "description": "",
+        "type": "numeric",
+        "kind": "measure"
+      },
+      {
+        "key": "__8__",
+        "name": "XRAY Measure Subtitle",
+        "description": "",
+        "type": "text",
+        "kind": "measure"
+      },
+      {
+        "key": "__9__",
+        "name": "VEDA PARM CARD MEASURE Value",
+        "description": "",
+        "type": "numeric",
+        "kind": "measure"
+      },
+      {
+        "key": "__10__",
+        "name": "VEDA PARM YAXIS SCALE Value",
+        "description": "",
+        "type": "numeric",
+        "kind": "measure"
+      },
+      {
+        "key": "__11__",
+        "name": "VEDA Measure KPI Denominator",
+        "description": "",
+        "type": "numeric",
+        "kind": "measure"
+      },
+      {
+        "key": "__12__",
+        "name": "VEDA Measure",
+        "description": "",
+        "type": "numeric",
+        "kind": "measure"
+      }
+    ]
+  },
+  "config": {},
+  "description": "VEDA Trend Chart (KPI Matrix V) (Vega), version 10-07-2023, author: Pesante Analytics",
+  "height": 600,
+  "width": 800,
+  "padding": 5,
+  "data": [
+    {
+      "name": "dataset",
+      "transform": [
+        {
+          "type": "filter",
+          "expr": "datum['__12__'] != null"
+        },
+        {
+          "type": "identifier",
+          "as": "index"
+        },
+        {
+          "type": "formula",
+          "expr": "datum.__selected__ === 'on' ? 1 : 0.3",
+          "as": "Measure_Selected"
+        },
+        {
+          "type": "formula",
+          "expr": "(datum['__11__'] * datum['__12__'])",
+          "as": "Total Monthly Measure"
+        },
+        {
+          "type": "window",
+          "params": [null],
+          "as": [
+            "last_Measure_Selected",
+            "Total Monthly Measure",
+            "Total Monthly Size By"
+          ],
+          "ops": [
+            "last_value",
+            "sum",
+            "sum"
+          ],
+          "fields": [
+            "Measure_Selected",
+            "Total Monthly Measure",
+            "__11__"
+          ],
+          "sort": {
+            "field": [
+              "Measure_Selected"
+            ],
+            "order": ["ascending"]
+          },
+          "groupby": ["__0__"],
+          "frame": [null, null]
+        },
+        {
+          "type": "formula",
+          "expr": "datum['Total Monthly Measure']/datum['Total Monthly Size By']",
+          "as": "Monthly_Weighted_Average"
+        },
+        {
+          "type": "window",
+          "params": [null, null, null],
+          "as": [
+            "first_value",
+            "first_date",
+            "row_number"
+          ],
+          "ops": [
+            "first_value",
+            "first_value",
+            "row_number"
+          ],
+          "fields": [
+            "__12__",
+            "__3__",
+            "__3__"
+          ],
+          "sort": {
+            "field": [],
+            "order": []
+          },
+          "groupby": ["__0__"]
+        },
+        {
+          "type": "window",
+          "params": [null, null, null],
+          "as": [
+            "last_value",
+            "average"
+          ],
+          "ops": [
+            "last_value",
+            "average"
+          ],
+          "fields": [
+            "__12__",
+            "__12__"
+          ],
+          "sort": {
+            "field": [],
+            "order": []
+          },
+          "groupby": ["__0__"],
+          "frame": [null, null]
+        },
+        {
+          "type": "formula",
+          "expr": "pbiFormat( datum['Monthly_Weighted_Average'] /if( abs(datum['Monthly_Weighted_Average']) >= 1000000000000, 1000000000000, if( abs(datum['Monthly_Weighted_Average']) >= 1000000000, 1000000000,if( abs(datum['Monthly_Weighted_Average']) >= 1000000, 1000000, if( abs(datum['Monthly_Weighted_Average']) >= 1000, 1000,1)))),datum['__2__']) + if( abs(datum['Monthly_Weighted_Average']) >= 1000000000000, 'T', if( abs(datum['Monthly_Weighted_Average']) >= 1000000000, 'B',if( abs(datum['Monthly_Weighted_Average']) >= 1000000, 'M', if( abs(datum['Monthly_Weighted_Average']) >= 1000, 'K',''))))",
+          "as": "Monthly_Weighted_Average_Format"
+        },
+        {
+          "type": "formula",
+          "expr": "isValid(datum['first_value']) ? pbiFormat( datum['first_value'] /if( abs(datum['first_value']) >= 1000000000000, 1000000000000, if( abs(datum['first_value']) >= 1000000000, 1000000000,if( abs(datum['first_value']) >= 1000000, 1000000, if( abs(datum['first_value']) >= 1000, 1000,1)))),datum['__2__']) + if( abs(datum['first_value']) >= 1000000000000, 'T', if( abs(datum['first_value']) >= 1000000000, 'B',if( abs(datum['first_value']) >= 1000000, 'M', if( abs(datum['first_value']) >= 1000, 'K','')))) : ''",
+          "as": "first_value_Format"
+        },
+        {
+          "type": "formula",
+          "expr": "pbiFormat( datum['last_value'] /if( abs(datum['last_value']) >= 1000000000000, 1000000000000, if( abs(datum['last_value']) >= 1000000000, 1000000000,if( abs(datum['last_value']) >= 1000000, 1000000, if( abs(datum['last_value']) >= 1000, 1000,1)))),datum['__2__']) + if( abs(datum['last_value']) >= 1000000000000, 'T', if( abs(datum['last_value']) >= 1000000000, 'B',if( abs(datum['last_value']) >= 1000000, 'M', if( abs(datum['last_value']) >= 1000, 'K',''))))",
+          "as": "last_value_Format"
+        },
+        {
+          "type": "formula",
+          "expr": "pbiFormat( datum['average'] /if( abs(datum['average']) >= 1000000000000, 1000000000000, if( abs(datum['average']) >= 1000000000, 1000000000,if( abs(datum['average']) >= 1000000, 1000000, if( abs(datum['average']) >= 1000, 1000,1)))),datum['__2__']) + if( abs(datum['average']) >= 1000000000000, 'T', if( abs(datum['average']) >= 1000000000, 'B',if( abs(datum['average']) >= 1000000, 'M', if( abs(datum['average']) >= 1000, 'K',''))))",
+          "as": "Average_Format"
+        },
+        {
+          "type": "formula",
+          "expr": "datum['__9__'] === 1 ? datum.Average_Format: datum['__9__'] === 2 ? datum.last_value_Format: datum.Monthly_Weighted_Average_Format",
+          "as": "VEDA_Measure_format"
+        },
+        {
+          "type": "formula",
+          "expr": "pbiFormat( datum['__11__'] /if( abs(datum['__11__']) >= 1000000000000, 1000000000000, if( abs(datum['__11__']) >= 1000000000, 1000000000,if( abs(datum['__11__']) >= 1000000, 1000000, if( abs(datum['__11__']) >= 1000, 1000,1)))),datum['__6__']) + if( abs(datum['__11__']) >= 1000000000000, 'T', if( abs(datum['__11__']) >= 1000000000, 'B',if( abs(datum['__11__']) >= 1000000, 'M', if( abs(datum['__11__']) >= 1000, 'K',''))))",
+          "as": "VEDA_MeasureSize_format"
+        },
+        {
+          "type": "window",
+          "params": [null],
+          "as": ["dense_rank"],
+          "ops": ["dense_rank"],
+          "fields": ["__0__"],
+          "sort": {
+            "field": ["__0__"],
+            "order": ["ascending"]
+          },
+          "groupby": ["__1__"]
+        },
+        {
+          "type": "formula",
+          "expr": "pow(datum['__12__'],2)",
+          "as": "y2"
+        },
+        {
+          "type": "formula",
+          "expr": "pow(datum['__3__'],2)",
+          "as": "x2"
+        },
+        {
+          "type": "formula",
+          "expr": "(datum['__12__']*datum['__3__'])",
+          "as": "xy"
+        },
+        {
+          "type": "joinaggregate",
+          "as": [
+            "N",
+            "Y_sum",
+            "X_sum",
+            "Y2_sum",
+            "X2_sum",
+            "XY_sum"
+          ],
+          "ops": [
+            "count",
+            "sum",
+            "sum",
+            "sum",
+            "sum",
+            "sum"
+          ],
+          "fields": [
+            null,
+            "__12__",
+            "__3__",
+            "y2",
+            "x2",
+            "xy"
+          ],
+          "groupby": ["__0__"]
+        },
+        {
+          "type": "formula",
+          "expr": "isValid(((datum.N * datum.XY_sum)-(datum.Y_sum*datum.X_sum))/sqrt((((datum.N * datum.Y2_sum )- datum.Y2_sum)*((datum.N * datum.X2_sum )- datum.X2_sum) ))) ? ((datum.N * datum.XY_sum)-(datum.Y_sum*datum.X_sum))/sqrt((((datum.N * datum.Y2_sum )- datum.Y2_sum)*((datum.N * datum.X2_sum )- datum.X2_sum) )) : 0 ",
+          "as": "r"
+        },
+        {
+          "type": "formula",
+          "expr": "pow(datum.r,2)",
+          "as": "r2"
+        },
+        {
+          "type": "formula",
+          "expr": "isValid((datum.N * datum.XY_sum-(datum.X_sum*datum.Y_sum))/(datum.N * datum.X2_sum-(pow(datum.X_sum,2)))) ? (datum.N * datum.XY_sum-(datum.X_sum*datum.Y_sum))/(datum.N * datum.X2_sum-(pow(datum.X_sum,2))):0 ",
+          "as": "a"
+        },
+        {
+          "type": "formula",
+          "expr": "datum.a ==0? 0 : isValid((datum.Y_sum * datum.X2_sum - (datum.X_sum*datum.XY_sum))/(datum.N * datum.X2_sum-(pow(datum.X_sum,2)))) ? (datum.Y_sum * datum.X2_sum - (datum.X_sum*datum.XY_sum))/(datum.N * datum.X2_sum-(pow(datum.X_sum,2))) : 0",
+          "as": "b"
+        },
+        {
+          "type": "formula",
+          "expr": "datum.a*datum['__3__'] + datum.b",
+          "as": "var_Y"
+        }
+      ]
+    },
+    {
+      "name": "row_domain",
+      "source": "dataset",
+      "transform": [
+        {
+          "type": "aggregate",
+          "groupby": ["dense_rank"]
+        }
+      ]
+    },
+    {
+      "name": "data_1",
+      "source": "dataset",
+      "transform": [
+        {
+          "type": "filter",
+          "expr": "datum.row_number == 1"
+        }
+      ]
+    },
+    {
+      "name": "data_2",
+      "source": "dataset",
+      "transform": [
+        {
+          "field": "__3__",
+          "type": "timeunit",
+          "units": ["year", "month"],
+          "as": [
+            "month_Year Month",
+            "month_Year Month_end"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "data_3",
+      "source": "dataset",
+      "transform": [
+        {
+          "type": "window",
+          "params": [null],
+          "as": ["var_Y_max"],
+          "ops": ["last_value"],
+          "fields": ["var_Y"],
+          "sort": {
+            "field": [],
+            "order": []
+          },
+          "groupby": [
+            "__0__",
+            "dense_rank",
+            "__1__"
+          ],
+          "frame": [null, null]
+        },
+        {
+          "type": "filter",
+          "expr": "datum.var_Y===datum.var_Y_max"
+        },
+        {
+          "field": "__3__",
+          "type": "timeunit",
+          "units": ["year", "month"],
+          "as": [
+            "month_Year Month",
+            "month_Year Month_end"
+          ]
+        },
+        {
+          "type": "filter",
+          "expr": "isValid(datum['var_Y']) && isFinite(+datum['var_Y'])"
+        }
+      ]
+    },
+    {
+      "name": "TrendYellow",
+      "source": "dataset",
+      "transform": [
+        {
+          "type": "filter",
+          "expr": "datum['__4__'] === 'LOW/HIGH IS NEUTRAL' || datum.r === 0 && datum.row_number == 1"
+        },
+        {
+          "type": "aggregate",
+          "as": ["countTrendYellow"],
+          "ops": ["distinct"],
+          "fields": ["__0__"],
+          "groupby": ["__1__"]
+        }
+      ]
+    },
+    {
+      "name": "TrendGreen",
+      "source": "dataset",
+      "transform": [
+        {
+          "type": "filter",
+          "expr": "datum['__4__'] === 'LOW IS GOOD' && datum.r  < 0 || datum['__4__'] === 'HIGH IS GOOD' && datum.r  > 0  && datum.row_number == 1"
+        },
+        {
+          "type": "aggregate",
+          "as": ["countTrendGreen"],
+          "ops": ["distinct"],
+          "fields": ["__0__"],
+          "groupby": ["__1__"]
+        }
+      ]
+    },
+    {
+      "name": "TotalKPIforCategory",
+      "source": "dataset",
+      "transform": [
+        {
+          "type": "aggregate",
+          "as": ["countKPI"],
+          "ops": ["distinct"],
+          "fields": ["__0__"],
+          "groupby": ["__1__"]
+        }
+      ]
+    },
+    {
+      "name": "TrendUp",
+      "source": "dataset",
+      "transform": [
+        {
+          "type": "filter",
+          "expr": "datum.r >= 0 && datum.row_number == 1"
+        },
+        {
+          "type": "aggregate",
+          "as": ["countTrendUp"],
+          "ops": ["count"],
+          "fields": ["r"],
+          "groupby": ["__1__"]
+        }
+      ]
+    },
+    {
+      "name": "TrendDow",
+      "source": "dataset",
+      "transform": [
+        {
+          "type": "filter",
+          "expr": "datum.r < 0 && datum.row_number == 1"
+        },
+        {
+          "type": "aggregate",
+          "as": ["countTrendDow"],
+          "ops": ["count"],
+          "fields": ["r"],
+          "groupby": ["__1__"]
+        }
+      ]
+    },
+    {
+      "name": "column_domain",
+      "source": "dataset",
+      "transform": [
+        {
+          "type": "aggregate",
+          "groupby": ["__1__"]
+        },
+        {
+          "type": "lookup",
+          "from": "TrendUp",
+          "key": "__1__",
+          "fields": ["__1__"],
+          "values": ["countTrendUp"],
+          "as": ["countTrendUp"]
+        },
+        {
+          "type": "lookup",
+          "from": "TrendDow",
+          "key": "__1__",
+          "fields": ["__1__"],
+          "values": ["countTrendDow"],
+          "as": ["countTrendDow"]
+        },
+        {
+          "type": "lookup",
+          "from": "TrendYellow",
+          "key": "__1__",
+          "fields": ["__1__"],
+          "values": [
+            "countTrendYellow"
+          ],
+          "as": ["countTrendYellow"]
+        },
+        {
+          "type": "lookup",
+          "from": "TrendGreen",
+          "key": "__1__",
+          "fields": ["__1__"],
+          "values": ["countTrendGreen"],
+          "as": ["countTrendGreen"]
+        },
+        {
+          "type": "lookup",
+          "from": "TotalKPIforCategory",
+          "key": "__1__",
+          "fields": ["__1__"],
+          "values": ["countKPI"],
+          "as": ["countKPI"]
+        },
+        {
+          "type": "formula",
+          "expr": "datum.countKPI-(datum.countTrendGreen + datum.countTrendYellow)",
+          "as": "countTrendRed"
+        }
+      ]
+    },
+    {
+      "name": "data_BarChar",
+      "source": "dataset",
+      "transform": [
+        {
+          "field": "__3__",
+          "type": "timeunit",
+          "units": ["year", "month"],
+          "as": [
+            "month_Year Month",
+            "month_Year Month_end"
+          ]
+        },
+        {
+          "type": "stack",
+          "groupby": [
+            "month_Year Month"
+          ],
+          "field": "__11__",
+          "sort": {
+            "field": [],
+            "order": []
+          },
+          "as": [
+            "VEDA Measure Size By_start",
+            "VEDA Measure Size By_end"
+          ],
+          "offset": "zero"
+        },
+        {
+          "type": "filter",
+          "expr": "isValid(datum['__11__']) && isFinite(+datum['__11__'])"
+        }
+      ]
+    }
+  ],
+  "signals": [
+    {
+      "name": "child_width",
+      "description": "width of card",
+      "value": 200
+    },
+    {
+      "name": "child_height",
+      "description": "height of card",
+      "value": 100
+    },
+    {
+      "name": "Value_Scale",
+      "description": "Value of scale",
+      "update": "pluck(data('dataset'), '__10__')[0]"
+    },
+    {
+      "name": "Scale",
+      "description": "true or false of scale",
+      "update": "Value_Scale === 1 ? false : true"
+    },
+    {
+      "name": "child_x_offset",
+      "description": "offset in axis x",
+      "value": 10
+    },
+    {
+      "name": "child_y_offset",
+      "description": "Offset for axis Y",
+      "value": 10
+    },
+    {
+      "name": "MaxDate",
+      "description": "Max Date",
+      "update": "extent(pluck(data('dataset'),'__3__'))[1]"
+    },
+    {
+      "name": "MinDate",
+      "description": "Min Date",
+      "update": "extent(pluck(data('dataset'),'__3__'))[0]"
+    },
+    {
+      "name": "timeDiff",
+      "description": "Diff",
+      "update": "month(datetime(MaxDate)) - month(datetime(MinDate))"
+    },
+    {"name": "maxMonths","description":"", "value": 12},
+    {"name": "minMonths", "value": 2}
+  ],
+  "layout": {
+    "padding": {
+      "row": 100,
+      "column": 205
+    },
+    "columns": {
+      "signal": "length(data('column_domain'))"
+    },
+    "bounds": "flush",
+    "align": "none",
+    "center": false
+  },
+  "marks": [
+    {
+      "type": "group",
+      "name": "column_header",
+      "role": "column-header",
+      "from": {"data": "column_domain"},
+      "sort": {
+        "field": "datum['__1__']",
+        "order": "ascending"
+      },
+      "marks": [
+        {
+          "type": "rect",
+          "name": "column_header_background",
+          "encode": {
+            "enter": {
+              "width": {
+                "signal": "child_width + 185"
+              },
+              "cornerRadiusTopLeft": {
+                "value": 15
+              },
+              "height": {"value": 80},
+              "x": {
+                "signal": "-child_width * 0.98 - 1 + child_x_offset"
+              },
+              "y": {
+                "signal": "-child_height * 0.5 - 110 + child_y_offset"
+              }
+            },
+            "update": {
+              "fill": {
+                "signal": "pbiColor(7,0.05)"
+              }
+            },
+            "hover": {
+              "fill": {
+                "signal": "parent.countTrendGreen > parent.countTrendYellow && parent.countTrendGreen > parent.countTrendRed ? '#57C4AD': parent.countTrendYellow > parent.countTrendGreen && parent.countTrendYellow > parent.countTrendRed? '#E6E1BC' : '#DB4325'"
+              }
+            }
+          }
+        },
+        {
+          "type": "rect",
+          "name": "column_header_backgroundSentimen",
+          "encode": {
+            "enter": {
+              "fill": {
+                "signal": "parent.countTrendGreen > parent.countTrendYellow && parent.countTrendGreen > parent.countTrendRed ? '#57C4AD': parent.countTrendYellow > parent.countTrendGreen && parent.countTrendYellow > parent.countTrendRed? '#E6E1BC' : '#DB4325'"
+              },
+              "width": {
+                "signal": "child_height * 0.05 + 180 + child_y_offset - 180"
+              },
+              "cornerRadiusTopRight": {
+                "value": 15
+              },
+              "height": {"value": 80},
+              "x": {
+                "signal": "child_height * 0.05 + 180 + child_y_offset"
+              },
+              "y": {
+                "signal": "-child_height * 0.5 - 110 + child_y_offset"
+              }
+            }
+          }
+        },
+        {
+          "type": "text",
+          "name": "Text_title_Category",
+          "description": "Text title Category",
+          "encode": {
+            "enter": {
+              "text": {
+                "signal": "isValid(parent['__1__']) ? parent['__1__'] : '' + parent['__1__']"
+              },
+              "baseline": {
+                "value": "middle"
+              },
+              "align": {
+                "value": "center"
+              },
+              "fill": {
+                "signal": "pbiColor(6,1)"
+              },
+              "fontSize": {"value": 18},
+              "fontWeight": {
+                "value": 700
+              },
+              "dx": {
+                "signal": "child_width/12"
+              },
+              "y": {
+                "signal": "-child_height * 0.5 - 95 + child_y_offset"
+              }
+            }
+          }
+        },
+        {
+          "type": "text",
+          "description": "Text Green",
+          "encode": {
+            "enter": {
+              "text": {
+                "signal": "isValid(parent['countTrendGreen']) ? 'Green: ' + parent['countTrendGreen'] : 'Green: ' + 0"
+              },
+              "baseline": {
+                "value": "middle"
+              },
+              "align": {
+                "value": "left"
+              },
+              "fill": {
+                "signal": "pbiColor(6,1)"
+              },
+              "fontSize": {"value": 10},
+              "fontWeight": {
+                "value": 100
+              },
+              "dx": {
+                "signal": "-child_width * 0.90 - 1 + child_x_offset"
+              },
+              "y": {
+                "signal": "-child_height * 0.5 - 80 + child_y_offset"
+              }
+            }
+          }
+        },
+        {
+          "type": "text",
+          "description": "Text Yellow",
+          "encode": {
+            "enter": {
+              "text": {
+                "signal": "isValid(parent['countTrendYellow']) ? 'Yellow: ' + parent['countTrendYellow'] : 'Yellow: ' + 0"
+              },
+              "baseline": {
+                "value": "middle"
+              },
+              "align": {
+                "value": "left"
+              },
+              "fill": {
+                "signal": "pbiColor(6,1)"
+              },
+              "fontSize": {"value": 10},
+              "fontWeight": {
+                "value": 100
+              },
+              "dx": {
+                "signal": "-child_width * 0.90 - 1 + child_x_offset"
+              },
+              "y": {
+                "signal": "-child_height * 0.5 - 66 + child_y_offset"
+              }
+            }
+          }
+        },
+        {
+          "type": "text",
+          "description": "Text Red",
+          "encode": {
+            "enter": {
+              "text": {
+                "signal": "isValid(parent['countTrendRed']) ? 'Red: ' + '\\u00A0\\u00A0\\u00A0\\u00A0' + parent['countTrendRed'] : 'Red: ' + 0"
+              },
+              "baseline": {
+                "value": "middle"
+              },
+              "align": {
+                "value": "left"
+              },
+              "fill": {
+                "signal": "pbiColor(6,1)"
+              },
+              "fontSize": {"value": 10},
+              "fontWeight": {
+                "value": 100
+              },
+              "dx": {
+                "signal": "-child_width * 0.90 - 1 + child_x_offset"
+              },
+              "y": {
+                "signal": "-child_height * 0.5 - 54 + child_y_offset"
+              }
+            }
+          }
+        }
+      ]
+    },
+    {
+      "description": "Chart Data",
+      "name": "cell",
+      "type": "group",
+      "style": "marks",
+      "from": {
+        "facet": {
+          "name": "facet",
+          "data": "dataset",
+          "groupby": [
+            "dense_rank",
+            "__1__"
+          ],
+          "aggregate": {"cross": true}
+        }
+      },
+      "sort": {
+        "field": [
+          "datum['dense_rank']",
+          "datum['__1__']"
+        ],
+        "order": [
+          "ascending",
+          "ascending"
+        ]
+      },
+      "data": [
+        {
+          "source": "facet",
+          "name": "data_0",
+          "transform": [
+            {
+              "type": "filter",
+              "expr": "datum.row_number == 1"
+            }
+          ]
+        },
+        {
+          "source": "facet",
+          "name": "data_1",
+          "transform": [
+            {
+              "field": "__3__",
+              "type": "timeunit",
+              "units": [
+                "year",
+                "month"
+              ],
+              "as": [
+                "month_Year Month",
+                "month_Year Month_end"
+              ]
+            }
+          ]
+        },
+        {
+          "source": "facet",
+          "name": "data_2",
+          "transform": [
+            {
+              "type": "window",
+              "params": [null],
+              "as": ["var_Y_max"],
+              "ops": ["last_value"],
+              "fields": ["var_Y"],
+              "sort": {
+                "field": [],
+                "order": []
+              },
+              "groupby": ["__0__"],
+              "frame": [null, null]
+            },
+            {
+              "type": "filter",
+              "expr": "datum.var_Y===datum.var_Y_max"
+            },
+            {
+              "field": "__3__",
+              "type": "timeunit",
+              "units": [
+                "year",
+                "month"
+              ],
+              "as": [
+                "month_Year Month",
+                "month_Year Month_end"
+              ]
+            },
+            {
+              "type": "filter",
+              "expr": "isValid(datum['var_Y']) && isFinite(+datum['var_Y'])"
+            }
+          ]
+        },
+        {
+          "name": "data_BarChar",
+          "source": "facet",
+          "transform": [
+            {
+              "field": "__3__",
+              "type": "timeunit",
+              "units": [
+                "year",
+                "month"
+              ],
+              "as": [
+                "month_Year Month",
+                "month_Year Month_end"
+              ]
+            },
+            {
+              "type": "stack",
+              "groupby": [
+                "month_Year Month"
+              ],
+              "field": "__11__",
+              "sort": {
+                "field": [],
+                "order": []
+              },
+              "as": [
+                "VEDA Measure KPI Denominator_start",
+                "VEDA Measure KPI Denominator_end"
+              ],
+              "offset": "zero"
+            },
+            {
+              "type": "filter",
+              "expr": "isValid(datum['__11__']) && isFinite(+datum['__11__'])"
+            }
+          ]
+        },
+        {
+          "source": "facet",
+          "name": "data_axisX",
+          "transform": [
+            {
+              "type": "formula",
+              "expr": "year(datum['__3__'])",
+              "as": "Year"
+            },
+            {
+              "type": "window",
+              "params": [null],
+              "as": ["MinDate"],
+              "ops": ["min", "max"],
+              "fields": [
+                "__3__",
+                "__3__"
+              ],
+              "sort": {
+                "field": [],
+                "order": []
+              },
+              "groupby": [
+                "Year",
+                "__0__"
+              ],
+              "frame": [null, null]
+            },
+            {
+              "type": "aggregate",
+              "groupby": [
+                "__0__",
+                "Year",
+                "MinDate"
+              ]
+            },
+            {
+              "type": "formula",
+              "expr": "month(datum.MinDate)",
+              "as": "month"
+            }
+          ]
+        }
+      ],
+      "encode": {
+        "update": {
+          "width": {
+            "signal": "child_width"
+          },
+          "height": {
+            "signal": "child_height"
+          },
+          "x": {
+            "signal": "child_width * 0.8 - 20"
+          },
+          "y": {
+            "signal": "child_height * 0.1 + 20"
+          }
+        }
+      },
+      "marks": [
+        {
+          "description": "Chart rect",
+          "name": "ChartRectCard",
+          "type": "rect",
+          "style": ["rect"],
+          "from": {"data": "data_0"},
+          "encode": {
+            "update": {
+              "opacity": {
+                "signal": "datum.last_Measure_Selected === 1 ? 0.5 : datum.__selected__ === 'neutral'? 0.5: 0.3"
+              },
+              "cursor": {
+                "signal": "'pointer'"
+              },
+              "fill": {
+                "signal": "pbiColor(7,0.1)"
+              },
+              "cornerRadiusTopLeft": {
+                "value": 15
+              },
+              "cornerRadiusBottomLeft": {
+                "value": 15
+              },
+              "width": {
+                "signal": "child_width + 185"
+              },
+              "x": {
+                "signal": "-child_width * 0.98 - 1 + child_x_offset"
+              },
+              "yc": {
+                "value": 0,
+                "offset": {
+                  "signal": "child_height * 0.05 + 20 + child_y_offset"
+                }
+              },
+              "height": {
+                "signal": "child_height + 90"
+              },
+              "tooltip": {
+                "signal": "{'KPI Name:': isValid(datum['__0__']) ? datum['__0__'] : ' ',        'Start of Period:': isValid(datum['first_value_Format']) ? datum['first_value_Format'] : ' ',           'Monthly Avg:': isValid(datum['Average_Format']) ? datum['Average_Format'] : ' ',                'Monthly Weighted Avg:': isValid(datum['Monthly_Weighted_Average_Format']) ? datum['Monthly_Weighted_Average_Format'] : ' ',      'End of Period:': isValid(datum['last_value_Format']) ? datum['last_value_Format'] : ' ',            '(Volume Measure Name):': isValid(datum['__5__']) ? datum['__5__'] : ' ',                                'Sentiment:': isValid(datum['__4__:']) ? datum['__4__'] : ''+datum['__4__']}"
+              }
+            },
+            "hover": {
+              "fill": {
+                "signal": "pbiColor(7,0.2)"
+              }
+            }
+          }
+        },
+        {
+          "description": "Chart rect with sentiment",
+          "name": "ChartRectSentiment",
+          "type": "rect",
+          "style": ["rect"],
+          "from": {"data": "data_0"},
+          "encode": {
+            "update": {
+              "opacity": {
+                "signal": "datum.last_Measure_Selected === 1 ? 1 : datum.__selected__ === 'neutral'? 1: 0.3"
+              },
+              "cursor": {
+                "signal": "'pointer'"
+              },
+              "fill": {
+                "signal": "[datum['__4__'] === 'LOW/HIGH IS NEUTRAL' || datum.r === 0  ? '#E6E1BC': datum['__4__'] === 'LOW IS GOOD' && datum.r  < 0 || datum['__4__'] === 'HIGH IS GOOD' && datum.r  > 0 ? '#57C4AD' : '#DB4325']"
+              },
+              "x": {
+                "value": 0,
+                "offset": 195
+              },
+              "width": {"value": 15},
+              "cornerRadiusTopRight": {
+                "value": 15
+              },
+              "cornerRadiusBottomRight": {
+                "value": 15
+              },
+              "yc": {
+                "value": 0,
+                "offset": {
+                  "signal": "child_height * 0.05 + 20 + child_y_offset"
+                }
+              },
+              "height": {"value": 190},
+              "tooltip": {
+                "signal": "{'KPI Name:': isValid(datum['__0__']) ? datum['__0__'] : ' ',        'Start of Period:': isValid(datum['first_value_Format']) ? datum['first_value_Format'] : ' ',           'Monthly Avg:': isValid(datum['Average_Format']) ? datum['Average_Format'] : ' ',                'Monthly Weighted Avg:': isValid(datum['Monthly_Weighted_Average_Format']) ? datum['Monthly_Weighted_Average_Format'] : ' ',      'End of Period:': isValid(datum['last_value_Format']) ? datum['last_value_Format'] : ' ',            '(Volume Measure Name):': isValid(datum['__5__']) ? datum['__5__'] : ' ',                                'Sentiment:': isValid(datum['__4__:']) ? datum['__4__'] : ''+datum['__4__']}"
+              }
+            }
+          }
+        },
+        {
+          "description": "Text Variation",
+          "name": "MarksVariation",
+          "type": "text",
+          "style": ["text"],
+          "from": {"data": "data_0"},
+          "encode": {
+            "update": {
+              "align": {
+                "value": "left"
+              },
+              "fontSize": {"value": 12},
+              "fontWeight": {
+                "value": 600
+              },
+              "fill": {
+                "signal": "pbiColor(5)"
+              },
+              "x": {
+                "signal": "-child_width * 0.90 - 1 + child_x_offset"
+              },
+              "y": {
+                "value": 0,
+                "offset": {
+                  "signal": "child_height * 0.05 + 50 + child_y_offset"
+                }
+              },
+              "text": {
+                "signal": "datum.r < 0 ? 'Trending Down:' :  'Trending Up: '"
+              },
+              "baseline": {
+                "value": "middle"
+              }
+            }
+          }
+        },
+        {
+          "description": "Text Subtitle",
+          "name": "MarkSubtitle",
+          "type": "text",
+          "style": ["text"],
+          "from": {"data": "data_0"},
+          "encode": {
+            "update": {
+              "align": {
+                "value": "left"
+              },
+              "fontSize": {"value": 10},
+              "fontWeight": {
+                "value": 600
+              },
+              "fill": {
+                "signal": "pbiColor(5)"
+              },
+              "x": {
+                "signal": "-child_width * 0.90 + 1 + child_x_offset"
+              },
+              "y": {
+                "value": 0,
+                "offset": {
+                  "signal": "child_height * 0.05 - 45 + child_y_offset"
+                }
+              },
+              "text": {
+                "signal": "isValid(datum['__8__']) ? datum['__8__'] : ''"
+              },
+              "baseline": {
+                "value": "middle"
+              }
+            }
+          }
+        },
+        {
+          "description": "Text description of measure value",
+          "name": "MarkDescritionMeasureValue",
+          "type": "text",
+          "style": ["text"],
+          "from": {"data": "data_0"},
+          "encode": {
+            "update": {
+              "align": {
+                "value": "left"
+              },
+              "fontSize": {"value": 9},
+              "fontWeight": {
+                "value": 400
+              },
+              "fill": {
+                "signal": "pbiColor(5)"
+              },
+              "x": {
+                "signal": "-child_width * 0.90 - 1 + child_x_offset"
+              },
+              "y": {
+                "value": 0,
+                "offset": {
+                  "signal": "child_height * 0.05 + 35 + child_y_offset"
+                }
+              },
+              "text": {
+                "signal": "datum['__9__'] === 1 ? '(Monthly Average)' : datum['__9__'] === 2 ? '(End of Period)': '(Monthly Weighted Average)'"
+              },
+              "baseline": {
+                "value": "middle"
+              }
+            }
+          }
+        },
+        {
+          "description": "Text title measure name",
+          "name": "MarkText_TitleMeasure",
+          "type": "text",
+          "style": ["text"],
+          "from": {"data": "data_0"},
+          "encode": {
+            "update": {
+              "align": {
+                "value": "left"
+              },
+              "fontSize": {"value": 14},
+              "fontWeight": {
+                "value": 900
+              },
+              "fill": {
+                "signal": "pbiColor(5)"
+              },
+              "x": {
+                "signal": "-child_width * 0.90 - 1 + child_x_offset"
+              },
+              "y": {
+                "value": 0,
+                "offset": {
+                  "signal": "child_height * 0.05 - 58 + child_y_offset"
+                }
+              },
+              "text": {
+                "signal": "isValid(datum['__0__']) ? datum['__0__'] : ''+datum['__0__']"
+              },
+              "baseline": {
+                "value": "middle"
+              }
+            }
+          }
+        },
+        {
+          "description": "Text of Number sentiment",
+          "name": "MarkTextNumberSentiment",
+          "type": "text",
+          "style": ["text"],
+          "from": {"data": "data_0"},
+          "encode": {
+            "update": {
+              "fontSize": {"value": 30},
+              "opacity": {
+                "signal": "datum.last_Measure_Selected === 1 ? 1 : datum.__selected__ === 'neutral'? 1: 0.3"
+              },
+              "fontWeight": {
+                "value": 700
+              },
+              "fill": {
+                "signal": "[datum['__4__'] === 'LOW/HIGH IS NEUTRAL' || datum.r === 0  ? '#E6E1BC': datum['__4__'] === 'LOW IS GOOD' && datum.r  < 0 || datum['__4__'] === 'HIGH IS GOOD' && datum.r  > 0 ? '#57C4AD' : '#DB4325']"
+              },
+              "x": {
+                "signal": "-child_width * 0.90 - 1 + child_x_offset"
+              },
+              "y": {
+                "value": 0,
+                "offset": {
+                  "signal": "child_height * 0.05 + 15 + child_y_offset"
+                }
+              },
+              "text": {
+                "signal": "isValid(datum['VEDA_Measure_format']) ? datum['VEDA_Measure_format'] : ''+datum['VEDA_Measure_format']"
+              },
+              "align": {
+                "value": "left"
+              },
+              "baseline": {
+                "value": "middle"
+              }
+            }
+          }
+        },
+        {
+          "name": "barmarks",
+          "type": "rect",
+          "style": ["bar"],
+          "from": {
+            "data": "data_BarChar"
+          },
+          "encode": {
+            "update": {
+              "cursor": {
+                "signal": "datum['__9__']===3? 'help':'defaul'"
+              },
+              "align": {
+                "value": "left"
+              },
+              "fill": {
+                "signal": "datum['__9__'] != 1 ? pbiColor(0) : 'transparent'"
+              },
+              "opacity": {
+                "signal": "datum.last_Measure_Selected === 1 ? 1 : datum.__selected__ === 'neutral'? 1: 0.3"
+              },
+              "ariaRoleDescription": {
+                "value": "bar"
+              },
+              "x": {
+                "scale": "AxisX2",
+                "field": "month_Year Month"
+              },
+              "width": {
+                "signal": "max(0.35, bandwidth('AxisX2'))"
+              },
+              "y": {
+                "scale": "AxisY2",
+                "field": "VEDA Measure KPI Denominator_start"
+              },
+              "y2": {
+                "scale": "AxisY2",
+                "field": "VEDA Measure KPI Denominator_end"
+              },
+              "tooltip": {
+                "signal": "datum['__9__'] != 1?[isValid(datum['VEDA_MeasureSize_format']) ? datum['__5__']+': ' +datum['VEDA_MeasureSize_format'] : '']:''"
+              }
+            }
+          }
+        },
+        {
+          "description": "Line Chart",
+          "name": "MarkLineChart",
+          "type": "line",
+          "style": ["line"],
+          "sort": {
+            "field": "datum['month_Year Month']"
+          },
+          "from": {"data": "data_1"},
+          "encode": {
+            "update": {
+              "opacity": {"value": 0.7},
+              "strokeWidth": {
+                "value": 1.5
+              },
+              "tooltip": {
+                "signal": "{'__3__ (month)': timeFormat(datum['month_Year Month'], timeUnitSpecifier(['month'], {'year-month':'%b %Y ','year-month-date':'%b %d, %Y '})), '__12__': format(datum['__12__'], '')}"
+              },
+              "stroke": {
+                "signal": "datum['__9__']!= 1? 'white': pbiColor(5)"
+              },
+              "x": {
+                "scale": "AxisX",
+                "field": "month_Year Month"
+              },
+              "y": {
+                "scale": "AxisY",
+                "field": "__12__"
+              },
+              "defined": {
+                "signal": "isValid(datum['__12__']) && isFinite(+datum['__12__'])"
+              }
+            }
+          }
+        },
+        {
+          "description": "Line Regression Chart with sentiment",
+          "name": "MarkLineRegressionChart",
+          "type": "line",
+          "style": ["line"],
+          "sort": {
+            "field": "datum['month_Year Month']"
+          },
+          "from": {"data": "data_1"},
+          "encode": {
+            "update": {
+              "strokeWidth": {
+                "value": 2
+              },
+              "strokeDash": {
+                "value": [4, 8]
+              },
+              "stroke": {
+                "signal": "[datum['__4__'] === 'LOW/HIGH IS NEUTRAL' || datum.r === 0  ? '#E6E1BC': datum['__4__'] === 'LOW IS GOOD' && datum.r  < 0 || datum['__4__'] === 'HIGH IS GOOD' && datum.r  > 0 ? '#57C4AD' : '#DB4325']"
+              },
+              "opacity": [
+                {
+                  "test": "datum['__selected__']==='off'",
+                  "value": 0.3
+                }
+              ],
+              "x": {
+                "scale": "AxisX",
+                "field": "month_Year Month"
+              },
+              "y": {
+                "scale": "AxisY",
+                "field": "var_Y"
+              },
+              "defined": {
+                "signal": "isValid(datum['var_Y']) && isFinite(+datum['var_Y'])"
+              }
+            }
+          }
+        },
+        {
+          "name": "MarkTriangleEndLine",
+          "type": "symbol",
+          "style": ["point"],
+          "from": {"data": "data_2"},
+          "encode": {
+            "update": {
+              "opacity": {
+                "signal": "datum.last_Measure_Selected === 1 && datum.r != 0 || datum.__selected__ === 'neutral' && datum.r != 0 ? 1 : datum.r === 0 || datum.__selected__ === 'neutral' ? 0 :0.3"
+              },
+              "fill": {
+                "signal": "[datum['__4__'] === 'LOW/HIGH IS NEUTRAL' || datum.r === 0  ? '#E6E1BC': datum['__4__'] === 'LOW IS GOOD' && datum.r  < 0 || datum['__4__'] === 'HIGH IS GOOD' && datum.r  > 0 ? '#57C4AD' : '#DB4325']"
+              },
+              "shape": {
+                "value": "triangle"
+              },
+              "angle": {
+                "signal": "datum.r < 0 ? 180 : datum.r > 0 ? 0: ''"
+              },
+              "stroke": {
+                "signal": "[datum['__4__'] === 'LOW/HIGH IS NEUTRAL' || datum.r === 0  ? '#E6E1BC': datum['__4__'] === 'LOW IS GOOD' && datum.r  < 0 || datum['__4__'] === 'HIGH IS GOOD' && datum.r  > 0 ? '#57C4AD' : '#DB4325']"
+              },
+              "ariaRoleDescription": {
+                "value": "point"
+              },
+              "x": {
+                "scale": "AxisX",
+                "field": "month_Year Month"
+              },
+              "y": {
+                "scale": "AxisY",
+                "field": "var_Y",
+                "offset": 8
+              }
+            }
+          }
+        },
+        {
+          "name": "MarkTriangleVariation",
+          "type": "symbol",
+          "style": ["point"],
+          "from": {"data": "data_2"},
+          "encode": {
+            "update": {
+              "opacity": {
+                "signal": "datum.last_Measure_Selected === 1 && datum.r != 0 || datum.__selected__ === 'neutral' && datum.r != 0 ? 1 : datum.r === 0 || datum.__selected__ === 'neutral' ? 0 :0.3"
+              },
+              "fill": {
+                "signal": "[datum['__4__'] === 'LOW/HIGH IS NEUTRAL' || datum.r === 0  ? '#E6E1BC': datum['__4__'] === 'LOW IS GOOD' && datum.r  < 0 || datum['__4__'] === 'HIGH IS GOOD' && datum.r  > 0 ? '#57C4AD' : '#DB4325']"
+              },
+              "shape": {
+                "value": "triangle"
+              },
+              "angle": {
+                "signal": "datum.r < 0 ? 180 : datum.r > 0 ? 0: ''"
+              },
+              "stroke": {
+                "signal": "[datum['__4__'] === 'LOW/HIGH IS NEUTRAL' || datum.r === 0  ? '#E6E1BC': datum['__4__'] === 'LOW IS GOOD' && datum.r  < 0 || datum['__4__'] === 'HIGH IS GOOD' && datum.r  > 0 ? '#57C4AD' : '#DB4325']"
+              },
+              "ariaRoleDescription": {
+                "value": "point"
+              },
+              "x": {
+                "value": 0,
+                "offset": {
+                  "signal": "datum.r < 0 ? -70: -85"
+                }
+              },
+              "y": {
+                "value": 0,
+                "offset": {
+                  "signal": "[child_height * 0.05 + 50 + child_y_offset]"
+                }
+              },
+              "align": {"value": "left"}
+            }
+          }
+        }
+      ],
+      "scales": [
+        {
+          "name": "AxisX",
+          "type": "point",
+          "domain": {
+            "fields": [
+              {
+                "data": "data_1",
+                "field": "month_Year Month"
+              },
+              {
+                "data": "data_2",
+                "field": "month_Year Month"
+              }
+            ],
+            "sort": true
+          },
+          "range": [
+            0,
+            {
+              "signal": "child_width * 0.82"
+            }
+          ],
+          "padding": 0.1
+        },
+        {
+          "name": "AxisX2",
+          "type": "band",
+          "domain": {
+            "fields": [
+              {
+                "data": "data_BarChar",
+                "field": "month_Year Month"
+              }
+            ],
+            "sort": true
+          },
+          "range": [
+            0,
+            {
+              "signal": "child_width * 0.82"
+            }
+          ],
+          "padding": 0.05
+        },
+        {
+          "name": "AxisY",
+          "type": "linear",
+          "domain": {
+            "fields": [
+              {
+                "data": "data_1",
+                "field": "__12__"
+              },
+              {
+                "data": "data_1",
+                "field": "var_Y"
+              },
+              {
+                "data": "data_2",
+                "field": "var_Y"
+              }
+            ]
+          },
+          "range": [
+            {"signal": "child_height"},
+            0
+          ],
+          "zero": {"signal": "Scale"},
+          "nice": {"signal": "Scale"}
+        },
+        {
+          "name": "AxisY2",
+          "type": "linear",
+          "domain": {
+            "fields": [
+              {
+                "data": "data_BarChar",
+                "field": "VEDA Measure KPI Denominator_start"
+              },
+              {
+                "data": "data_BarChar",
+                "field": "VEDA Measure KPI Denominator_end"
+              }
+            ]
+          },
+          "range": [
+            {"signal": "child_height"},
+            0
+          ],
+          "zero": {"signal": "Scale"},
+          "nice": {"signal": "Scale"}
+        }
+      ],
+      "axes": [
+        {
+          "scale": "AxisY",
+          "orient": "left",
+          "gridScale": "AxisX",
+          "grid": false,
+          "tickCount": {
+            "signal": "ceil(child_height/40)"
+          },
+          "domain": false,
+          "labels": false,
+          "labelColor": {
+            "signal": "pbiColor(5)"
+          },
+          "aria": false,
+          "maxExtent": 0,
+          "minExtent": 0,
+          "ticks": false,
+          "zindex": 0
+        },
+        {
+          "scale": "AxisX",
+          "orient": "bottom",
+          "grid": false,
+          "labels": true,
+          "labelFontSize": {
+            "signal": "pbiFormat(pluck(data('data_axisX'), 'MinDate')[0],'yyyy-MMM') === pbiFormat(datum.value,'yyyy-MMM') || pbiFormat(pluck(data('data_axisX'), 'MinDate')[1],'yyyy-MMM') === pbiFormat(datum.value,'yyyy-MMM') || pbiFormat(pluck(data('data_axisX'), 'MinDate')[2],'yyyy-MMM') === pbiFormat(datum.value,'yyyy-MMM') ? 8: 6"
+          },
+          "labelSeparation": 2,
+          "labelColor": {
+            "signal": "pbiColor(5)"
+          },
+          "tickCount": 10,
+          "encode": {
+            "labels": {
+              "update": {
+                "fill": {
+                  "signal": "pbiColor(5)"
+                },
+                "text": {
+                  "signal": "pbiFormat(pluck(data('data_axisX'), 'MinDate')[0],'yyyy-MMM') === pbiFormat(datum.value,'yyyy-MMM') || pbiFormat(pluck(data('data_axisX'), 'MinDate')[1],'yyyy-MMM') === pbiFormat(datum.value,'yyyy-MMM') || pbiFormat(pluck(data('data_axisX'), 'MinDate')[2],'yyyy-MMM') === pbiFormat(datum.value,'yyyy-MMM') ? [pbiFormat(datum['value'], 'MMM'\n),pbiFormat(pluck(data('data_axisX'), 'MinDate')[0],'yyyy-MMM') === pbiFormat(datum.value,'yyyy-MMM') || pbiFormat(pluck(data('data_axisX'), 'MinDate')[1],'yyyy-MMM') === pbiFormat(datum.value,'yyyy-MMM') || pbiFormat(pluck(data('data_axisX'), 'MinDate')[2],'yyyy-MMM') === pbiFormat(datum.value,'yyyy-MMM') ? pbiFormat(datum['value'], 'yyyy') : '']: pbiFormat(datum['value'], 'MMM'\n)"
+                }
+              }
+            }
+          },
+          "tickDash": {
+            "signal": "pbiFormat(pluck(data('data_axisX'), 'MinDate')[0],'yyyy-MMM') === pbiFormat(datum.value,'yyyy-MMM') || pbiFormat(pluck(data('data_axisX'), 'MinDate')[1],'yyyy-MMM') === pbiFormat(datum.value,'yyyy-MMM') || pbiFormat(pluck(data('data_axisX'), 'MinDate')[2],'yyyy-MMM') === pbiFormat(datum.value,'yyyy-MMM') ? '': [1,1]"
+          },
+          "tickSize": {
+            "signal": "pbiFormat(pluck(data('data_axisX'), 'MinDate')[0],'yyyy-MMM') === pbiFormat(datum.value,'yyyy-MMM') || pbiFormat(pluck(data('data_axisX'), 'MinDate')[1],'yyyy-MMM') === pbiFormat(datum.value,'yyyy-MMM') || pbiFormat(pluck(data('data_axisX'), 'MinDate')[2],'yyyy-MMM') === pbiFormat(datum.value,'yyyy-MMM') ? 2: 2"
+          },
+          "tickBand": "center",
+          "labelOverlap": true
+        },
+        {
+          "scale": "AxisY",
+          "orient": "left",
+          "grid": false,
+          "labelFontSize": 8,
+          "labelOverlap": true,
+          "tickCount": {
+            "signal": "ceil(child_height/40)"
+          },
+          "encode": {
+            "labels": {
+              "update": {
+                "fill": {
+                  "signal": "pbiColor(5)"
+                },
+                "text": {
+                  "signal": "pbiFormat(datum.value/(if(datum.value >= 1000000000000, 1000000000000, if(datum.value >= 1000000000, 1000000000,if(datum.value >= 1000000, 1000000, if(datum.value >= 1000, 1000,1))))),pluck(data('data_0'), '__2__') ) + if(datum.value >= 1000000000000, 'T', if(datum.value >= 1000000000, 'B',if(datum.value >= 1000000, 'M', if(datum.value >= 1000, 'K',''))))"
+                }
+              }
+            }
+          },
+          "zindex": 0
+        },
+        {
+          "scale": "AxisY2",
+          "orient": "right",
+          "grid": false,
+          "labelFontSize": 8,
+          "labelOverlap": true,
+          "tickCount": {
+            "signal": "ceil(child_height/40)"
+          },
+          "encode": {
+            "labels": {
+              "update": {
+                "fill": {
+                  "signal": "pbiColor(5)"
+                },
+                "text": {
+                  "signal": "pbiFormat(datum.value/(if(datum.value >= 1000000000000, 1000000000000, if(datum.value >= 1000000000, 1000000000,if(datum.value >= 1000000, 1000000, if(datum.value >= 1000, 1000,1))))),pluck(data('data_0'), '__6__') ) + if(datum.value >= 1000000000000, 'T', if(datum.value >= 1000000000, 'B',if(datum.value >= 1000000, 'M', if(datum.value >= 1000, 'K',''))))"
+                }
+              }
+            }
+          },
+          "zindex": 0,
+          "offset": -33
+        }
+      ]
+    }
+  ]
+}
