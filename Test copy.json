@@ -15,8 +15,8 @@
       "dataPointLimit": 50
     },
     "information": {
-      "name": "VEDA Trend Chart (KPI Matrix V) (Vega)",
-      "description": "VEDA Trend Chart (KPI Matrix V) (Vega)",
+      "name": "Trend Chart (KPI Matrix V) (Vega)",
+      "description": "Trend Chart (KPI Matrix V) (Vega)",
       "author": "Pesante Analytics LLC",
       "uuid": "2ba9915e-69ed-4d2e-a4c4-43f9a958c5ee",
       "generated": "2023-07-12T20:39:21.613Z"
@@ -24,21 +24,21 @@
     "dataset": [
       {
         "key": "__0__",
-        "name": "VEDA Measure Name",
+        "name": "Measure Name",
         "description": "",
         "type": "text",
         "kind": "column"
       },
       {
         "key": "__1__",
-        "name": "VEDA Measure Category",
+        "name": "Measure Category",
         "description": "",
         "type": "text",
         "kind": "column"
       },
       {
         "key": "__2__",
-        "name": "VEDA Measure FormatString",
+        "name": "Measure FormatString",
         "description": "",
         "type": "text",
         "kind": "column"
@@ -52,21 +52,21 @@
       },
       {
         "key": "__4__",
-        "name": "VEDA Measure Sentiment",
+        "name": "Measure Sentiment",
         "description": "",
         "type": "text",
         "kind": "column"
       },
       {
         "key": "__5__",
-        "name": "VEDA Measure (FP) KPI Denominators Name",
+        "name": "Measure (FP) KPI Denominators Name",
         "description": "",
         "type": "text",
         "kind": "column"
       },
       {
         "key": "__6__",
-        "name": "VEDA Measure KPI Denominator FormatString",
+        "name": "Measure KPI Denominator FormatString",
         "description": "",
         "type": "text",
         "kind": "column"
@@ -87,28 +87,28 @@
       },
       {
         "key": "__9__",
-        "name": "VEDA PARM CARD MEASURE Value",
+        "name": "PARM CARD MEASURE Value",
         "description": "",
         "type": "numeric",
         "kind": "measure"
       },
       {
         "key": "__10__",
-        "name": "VEDA PARM YAXIS SCALE Value",
+        "name": "PARM YAXIS SCALE Value",
         "description": "",
         "type": "numeric",
         "kind": "measure"
       },
       {
         "key": "__11__",
-        "name": "VEDA Measure KPI Denominator",
+        "name": "Measure KPI Denominator",
         "description": "",
         "type": "numeric",
         "kind": "measure"
       },
       {
         "key": "__12__",
-        "name": "VEDA Measure",
+        "name": "Measure",
         "description": "",
         "type": "numeric",
         "kind": "measure"
@@ -116,7 +116,7 @@
     ]
   },
   "config": {},
-  "description": "VEDA Trend Chart (KPI Matrix V) (Vega), version 10-07-2023, author: Pesante Analytics",
+  "description": "Trend Chart (KPI Matrix V) (Vega), version 10-07-2023, author: Pesante Analytics",
   "height": 600,
   "width": 800,
   "padding": 5,
@@ -569,8 +569,8 @@
             "order": []
           },
           "as": [
-            "VEDA Measure Size By_start",
-            "VEDA Measure Size By_end"
+            "Measure Size By_start",
+            "Measure Size By_end"
           ],
           "offset": "zero"
         },
@@ -952,8 +952,8 @@
                 "order": []
               },
               "as": [
-                "VEDA Measure KPI Denominator_start",
-                "VEDA Measure KPI Denominator_end"
+                "Measure KPI Denominator_start",
+                "Measure KPI Denominator_end"
               ],
               "offset": "zero"
             },
@@ -1330,11 +1330,11 @@
               },
               "y": {
                 "scale": "AxisY2",
-                "field": "VEDA Measure KPI Denominator_start"
+                "field": "Measure KPI Denominator_start"
               },
               "y2": {
                 "scale": "AxisY2",
-                "field": "VEDA Measure KPI Denominator_end"
+                "field": "Measure KPI Denominator_end"
               },
               "tooltip": {
                 "signal": "datum['__9__'] != 1?[isValid(datum['VEDA_MeasureSize_format']) ? datum['__5__']+': ' +datum['VEDA_MeasureSize_format'] : '']:''"
@@ -1574,11 +1574,11 @@
             "fields": [
               {
                 "data": "data_BarChar",
-                "field": "VEDA Measure KPI Denominator_start"
+                "field": "Measure KPI Denominator_start"
               },
               {
                 "data": "data_BarChar",
-                "field": "VEDA Measure KPI Denominator_end"
+                "field": "Measure KPI Denominator_end"
               }
             ]
           },
