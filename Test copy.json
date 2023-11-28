@@ -15,8 +15,8 @@
       "dataPointLimit": 50
     },
     "information": {
-      "name": "Trend Chart (KPI Matrix V) (Vega)",
-      "description": "Trend Chart (KPI Matrix V) (Vega)",
+      "name": "Trend Chart",
+      "description": "Trend Chart",
       "author": "Pesante Analytics LLC",
       "uuid": "2ba9915e-69ed-4d2e-a4c4-43f9a958c5ee",
       "generated": "2023-07-12T20:39:21.613Z"
@@ -116,7 +116,7 @@
     ]
   },
   "config": {},
-  "description": "Trend Chart (KPI Matrix V) (Vega), version 10-07-2023, author: Pesante Analytics",
+  "description": "Trend Chart, version 10-07-2023, author: Pesante Analytics",
   "height": 600,
   "width": 800,
   "padding": 5,
